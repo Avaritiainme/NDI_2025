@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/app
+    environment:
+      - DEBUG=True
+    depends_on:
+      - db
+    command: >
+      sh -c "until nc -z db 5432; do echo Waiting for db; sleep 1; done &&
+             python manage.py migrate &&
+             python manage.py collectstatic --noinput --clear &&
+             python manage.py runserver 0.0.0.0:80"
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: django
+      POSTGRES_PASSWORD: djndi
+      POSTGRES_DB: nuitinfo
+    ports:
+      - "5432:5432"
+    restart: always
