@@ -92,7 +92,7 @@ function genererBulles() {
 
         // Calculer la position du dépôt
         const x = e.clientX - BULLE_DIAMETRE / 2;
-        const y = e.clientY - BULLE_DIAMETRE / 2 -480;
+        const y = e.clientY - BULLE_DIAMETRE / 2 -400;
 
         // Appliquer la nouvelle position
         bulle.style.left = `${x}px`;
