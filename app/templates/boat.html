@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bateau et Coraux</title>
+  <link rel="stylesheet" href={% static 'boat/style.css'%}>
+</head>
+<body>
+  <!-- Zone de jeu -->
+  <div id="game-area">
+    <!-- Mer -->
+    <div id="sea"></div>
+    <!-- Bateau -->
+    <img id="boat" src={% static 'boat/images/boat/boat1.png'%} alt="Bateau">
+    <!-- Coraux générés dynamiquement -->
+  </div>
+
+  <!-- Popup -->
+  <div id="popup-os" class="popup">
+    <div class="popup-content">
+      <span class="close">&times;</span>
+      <img src={% static 'boat/images/os.png'%} alt="Image Os">
+    </div>
+  </div>
+
+  <script src={% static 'boat/script.js'%}></script>
+</body>
+</html>

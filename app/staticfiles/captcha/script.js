@@ -135,7 +135,7 @@ function verifierCompletion() {
 // Redirection après validation
 validerButton.addEventListener('click', () => {
     if (poissonsRestants === 0 && bullesClassiquesDansZone === 0) {
-        window.location.href = 'page_debloquee.html';
+        window.location.href = 'boat/';
     }
 });
 

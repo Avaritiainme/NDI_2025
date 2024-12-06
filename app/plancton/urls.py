@@ -17,7 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from captcha import views as captcha
+from credits import views as credits
+from boat import views as boat
 
 urlpatterns = [
     path('', captcha.captcha, name='captcha'),
+    path('credits/', credits.credits, name='credits'),
+    path('boat/', boat.boat, name='boat'),
 ]

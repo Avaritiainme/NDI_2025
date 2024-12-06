@@ -2,6 +2,6 @@ from django.shortcuts import render
 
 # Create your views here.
 
-def credits(request):
+def boat(request):
 	c = {}
-	return render(request, 'credits.html', c)
+	return render(request, 'boat.html', c)
