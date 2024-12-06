@@ -17,9 +17,33 @@ h1 {
     padding: 20px;
 }
 
+#stats-board {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: inline-block;
+    text-align: left;
+    font-size: 18px;
+    line-height: 1.5;
+    max-width: 600px;
+}
+
+#stats-board h2 {
+    margin-bottom: 10px;
+}
+
+#stats-board ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#stats-board li {
+    margin-bottom: 5px;
+}
+
 #game {
     display: inline-block;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .row {
@@ -118,35 +142,16 @@ button {
     background-color: #4CAF50;
     color: white;
     border: none;
-    margin-left: 5px;
+    margin-top: 30px; /* Adjusted to ensure proper spacing at the bottom */
 }
 
 #submit-guess:hover {
     background-color: #45a049;
 }
 
-/* Styles for the stats board */
-#stats-board {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    display: inline-block;
-    text-align: left;
-    font-size: 18px;
-    line-height: 1.5;
-    max-width: 600px;
-}
-
-#stats-board h2 {
-    margin-bottom: 10px;
-}
-
-#stats-board ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-#stats-board li {
-    margin-bottom: 5px;
+#theme-toggle {
+    position:fixed;
+    right:0;
 }
 
 /* Dark Mode Styles */

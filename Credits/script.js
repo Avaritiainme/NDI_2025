@@ -1,4 +1,4 @@
-const WORDS = ['apple', 'brain', 'chair', 'delta', 'eagle', 'flame', 'grape', 'hotel', 'input', 'joker'];
+const WORDS = ['ocean', 'games', 'boats', 'lungs', 'human'];
 const secret = WORDS[Math.floor(Math.random() * WORDS.length)];
 let currentGuess = '';
 let currentRow = 0;
@@ -10,10 +10,10 @@ const themeToggleBtn = document.getElementById('theme-toggle');
 const submitGuessBtn = document.getElementById('submit-guess');
 
 const creditsData = [
-    '- Pierre Melo : Wordle maker',
-    '- Gael Dupuydelhome : Boat game maker',
-    '- Tom Romao : Image Maker',
-    '- Evan Thibault : Captcha maker'
+    ' Gael Dupuy de lôme : Team Leader + Sprite Designer',
+    ' Pierre Melo : Credits + Infra',
+    ' Tom Romao : KonamiCode + Graphics',
+    ' Evan Thibault : Captcha + Text'
 ];
 
 function createBoard() {
