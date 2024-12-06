@@ -10,10 +10,10 @@ const themeToggleBtn = document.getElementById('theme-toggle');
 const submitGuessBtn = document.getElementById('submit-guess');
 
 const creditsData = [
-    ' Pierre Melo : Wordle maker',
-    ' Gael Dupuydelhome : Boat game maker',
-    ' Tom Romao : Image Maker',
-    ' Evan Thibault : Captcha maker'
+    '- Pierre Melo : Wordle maker',
+    '- Gael Dupuydelhome : Boat game maker',
+    '- Tom Romao : Image Maker',
+    '- Evan Thibault : Captcha maker'
 ];
 
 function createBoard() {
@@ -77,6 +77,7 @@ function checkGuess() {
         }
     }
 
+    // Second pass: Correct letters in wrong positions
     for (let i = 0; i < 5; i++) {
         if (guessArray[i] && secretArray.includes(guessArray[i])) {
             tiles[i].classList.add('present');
@@ -153,6 +154,48 @@ function toggleTheme() {
         themeToggleBtn.textContent = 'Switch to Dark Mode';
     }
 }
+
+// Fetch and display commit statistics
+function fetchCommitStats(repoOwner, repoName) {
+    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contributors`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const commitCounts = {};
+
+            data.forEach(contributor => {
+                commitCounts[contributor.login] = contributor.contributions;
+            });
+
+            displayCommitStats(commitCounts);
+        })
+        .catch(error => {
+            console.error('Error fetching commit data:', error);
+            displayCommitStats(null);
+        });
+}
+
+function displayCommitStats(commitCounts) {
+    const statsBoard = document.getElementById('stats-board');
+    statsBoard.innerHTML = '<h2>Commit Statistics</h2>';
+
+    if (commitCounts) {
+        const list = document.createElement('ul');
+
+        for (const author in commitCounts) {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${author}: ${commitCounts[author]} commits`;
+            list.appendChild(listItem);
+        }
+        statsBoard.appendChild(list);
+    } else {
+        statsBoard.innerHTML += '<p>Unable to fetch commit data.</p>';
+    }
+}
+
+// Replace 'repo-owner' and 'repo-name' with actual GitHub repository details
+fetchCommitStats('Avaritiainme', 'NDI_2025');
 
 createBoard();
 createCredits();

@@ -125,6 +125,30 @@ button {
     background-color: #45a049;
 }
 
+/* Styles for the stats board */
+#stats-board {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: inline-block;
+    text-align: left;
+    font-size: 18px;
+    line-height: 1.5;
+    max-width: 600px;
+}
+
+#stats-board h2 {
+    margin-bottom: 10px;
+}
+
+#stats-board ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#stats-board li {
+    margin-bottom: 5px;
+}
+
 /* Dark Mode Styles */
 
 body.dark-mode {
@@ -152,4 +176,8 @@ body.dark-mode #submit-guess {
 
 body.dark-mode #submit-guess:hover {
     background-color: #7c7f83;
+}
+
+body.dark-mode #stats-board {
+    color: #d7dadc;
 }
