@@ -2,8 +2,7 @@ const container = document.getElementById('bulleContainer');
 const validerButton = document.getElementById('valider');
 const NB_BULLES = 15; // Nombre total de bulles
 let poissonsRestants = 0;
-let bullesAvecPoisson = 0; // Compteur des bulles avec poisson qui doivent être déplacées dans la zone
-let erreursCliquees = 0; // Variable pour suivre les erreurs
+let bullesClassiquesDansZone = 0; // Nombre de bulles classiques dans la zone
 const BULLE_DIAMETRE = 50; // Diamètre des bulles en pixels
 const bullesPositions = []; // Tableau pour stocker les positions des bulles
 const zone = document.getElementById('zoneDeplacement');
@@ -37,35 +36,33 @@ function genererBulles() {
     for (let i = 0; i < NB_BULLES; i++) {
         const bulle = document.createElement('div');
         bulle.classList.add('bulle');
-        bulle.id = `bulle_${i}`;  // ID unique pour chaque bulle
+        bulle.id = `bulle_${i}`; // ID unique pour chaque bulle
 
         // Ajouter une image classique pour chaque bulle au départ
         const imgClassique = document.createElement('img');
-        imgClassique.src = 'bateau.png';  // Remplacez par l'URL de l'image de votre choix
+        imgClassique.src = 'bateau.png'; // URL de l'image classique
         imgClassique.alt = 'Bulle classique'; // Texte alternatif pour l'accessibilité
         bulle.appendChild(imgClassique);
 
         // Marquer la bulle comme étant une bulle classique au départ
         bulle.dataset.type = 'classique';
 
-        // Ajouter un poisson aléatoirement (50% des cas)
+        // Ajouter un poisson aléatoirement (20% des bulles)
         if (Math.random() > 0.8) {
-            // Vérifier si la bulle doit avoir un poisson
             const imgPoisson = document.createElement('img');
-            imgPoisson.src = 'Pixel-Art-Fish-4.webp';  // URL de l'image d'un poisson
+            imgPoisson.src = 'Pixel-Art-Fish-4.webp'; // URL de l'image poisson
             imgPoisson.alt = 'Poisson';
-            
-            // Remplacer l'image classique par l'image du poisson, si la bulle est censée avoir un poisson
+
+            // Remplacer l'image classique par l'image du poisson
             const imageExistante = bulle.querySelector('img');
             if (imageExistante) {
-                imageExistante.src = imgPoisson.src;  // Remplacer la source de l'image
-                imageExistante.alt = imgPoisson.alt;  // Mettre à jour l'attribut alt
+                imageExistante.src = imgPoisson.src;
+                imageExistante.alt = imgPoisson.alt;
             }
 
             // Marquer la bulle comme contenant un poisson
             bulle.dataset.type = 'poisson';
             poissonsRestants++;
-            bullesAvecPoisson++;
         }
 
         // Générer une position non chevauchante
@@ -74,68 +71,71 @@ function genererBulles() {
         bulle.style.top = `${position.y}px`;
 
         // Ajout des événements de drag-and-drop
-        bulle.setAttribute('draggable', true); // Rendre la bulle déplaçable
-        
+        bulle.setAttribute('draggable', true);
+
         bulle.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('text', bulle.id); // Sauvegarder l'ID de la bulle pour le drop
-        });
-
-        // Zone de dépôt
-        zone.addEventListener('dragover', (e) => {
-            e.preventDefault(); // Permet le dépôt
-        });
-
-        zone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            const idBulle = e.dataTransfer.getData('text');
-            const bulle = document.getElementById(idBulle);
-
-            // Calculer la position du dépôt basé sur les coordonnées du curseur
-            const x = e.clientX - BULLE_DIAMETRE / 2; // Position horizontale ajustée pour centrer la bulle
-            const y = e.clientY - BULLE_DIAMETRE / 2 - 480; // Ajuster la position verticale pour déplacer vers le haut
-
-            // Vérification si la bulle a un poisson et si elle est dans la zone correcte
-            if (bulle.dataset.type === 'poisson' && !bulle.dataset.depose) {
-                // Appliquer la nouvelle position
-                bulle.style.left = `${x}px`;
-                bulle.style.top = `${y}px`;
-
-                // Marquer la bulle comme déposée pour éviter de décrémenter plusieurs fois
-                bulle.dataset.depose = 'true';
-
-                // Décrémenter les poissons restants
-                poissonsRestants--;
-
-                verifierCompletion();
-            }
+            e.dataTransfer.setData('text', bulle.id); // Sauvegarder l'ID de la bulle
         });
 
         container.appendChild(bulle);
     }
+
+    // Ajout des événements pour la zone de dépôt
+    zone.addEventListener('dragover', (e) => {
+        e.preventDefault(); // Permettre le dépôt
+    });
+
+    zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const idBulle = e.dataTransfer.getData('text');
+        const bulle = document.getElementById(idBulle);
+
+        // Calculer la position du dépôt
+        const x = e.clientX - BULLE_DIAMETRE / 2;
+        const y = e.clientY - BULLE_DIAMETRE / 2 -480;
+
+        // Appliquer la nouvelle position
+        bulle.style.left = `${x}px`;
+        bulle.style.top = `${y}px`;
+
+        // Vérifier si la bulle est dans la zone
+        const bulleRect = bulle.getBoundingClientRect();
+        const estDansZone =
+            bulleRect.left >= zoneRect.left &&
+            bulleRect.right <= zoneRect.right &&
+            bulleRect.top >= zoneRect.top &&
+            bulleRect.bottom <= zoneRect.bottom;
+
+        if (bulle.dataset.type === 'poisson') {
+            if (estDansZone && !bulle.dataset.depose) {
+                bulle.dataset.depose = 'true';
+                poissonsRestants--;
+            } else if (!estDansZone && bulle.dataset.depose) {
+                bulle.dataset.depose = 'false';
+                poissonsRestants++;
+            }
+        } else if (bulle.dataset.type === 'classique') {
+            if (estDansZone && bulle.dataset.dansZone !== 'true') {
+                bullesClassiquesDansZone++;
+            } else if (!estDansZone && bulle.dataset.dansZone === 'true') {
+                bullesClassiquesDansZone--;
+            }
+            bulle.dataset.dansZone = estDansZone.toString();
+        }
+
+        verifierCompletion();
+    });
 }
 
-// Vérifier si toutes les bulles avec poisson ont été placées
+// Vérifier si toutes les conditions de validation sont remplies
 function verifierCompletion() {
-    console.log(poissonsRestants);  // Vérification des poissons restants
-    if (poissonsRestants === 0) {
-        validerButton.disabled = false; // Si tous les poissons ont été déplacés dans la zone, débloquer le bouton
-    } else {
-        validerButton.disabled = true; // Garder le bouton désactivé tant qu'il reste des poissons à déplacer
-    }
-}
-
-// Fonction de redirection vers une page d'erreur si nécessaire
-function redirigerVersErreur() {
-    window.location.href = 'page_erreur.html'; // URL de la page d'erreur
+    validerButton.disabled = poissonsRestants > 0 || bullesClassiquesDansZone > 0;
 }
 
 // Redirection après validation
 validerButton.addEventListener('click', () => {
-    // Si il reste des poissons à déplacer, afficher la page d'erreur
-    if (poissonsRestants > 0) {
-        redirigerVersErreur(); // Redirection vers une page d'erreur
-    } else {
-        window.location.href = 'page_debloquee.html'; // URL cible de la page à débloquer
+    if (poissonsRestants === 0 && bullesClassiquesDansZone === 0) {
+        window.location.href = 'page_debloquee.html';
     }
 });
 
