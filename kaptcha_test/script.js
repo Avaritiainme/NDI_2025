@@ -73,14 +73,21 @@ function genererBulles() {
             const bulle = document.getElementById(idBulle);
 
             // Calculer la position du dépôt basé sur les coordonnées du curseur
-            const x = e.clientX - zoneRect.left - BULLE_DIAMETRE / 2;
-            const y = e.clientY - zoneRect.top - BULLE_DIAMETRE / 2;
+            const x = e.clientX - BULLE_DIAMETRE / 2; // Position horizontale ajustée pour centrer la bulle
+            const y = e.clientY - BULLE_DIAMETRE / 2 - 480; // Ajuster la position verticale pour déplacer vers le haut
 
-            // Si la bulle a un poisson et n'est pas déjà dans la zone
-            if (bulle.classList.contains('poisson')) {
+            // Vérification si la bulle a un poisson et si elle est dans la zone correcte
+            if (bulle.classList.contains('poisson') && !bulle.dataset.depose) {
+                // Appliquer la nouvelle position
                 bulle.style.left = `${x}px`;
                 bulle.style.top = `${y}px`;
-                poissonsRestants--; // Décrémenter les poissons restants
+
+                // Marquer la bulle comme déposée pour éviter de décrémenter plusieurs fois
+                bulle.dataset.depose = 'true';
+
+                // Décrémenter les poissons restants
+                poissonsRestants--;
+
                 verifierCompletion();
             }
         });
@@ -89,10 +96,13 @@ function genererBulles() {
     }
 }
 
-// Vérifier si toutes les bulles avec poisson ont été cliquées et placées
+// Vérifier si toutes les bulles avec poisson ont été placées
 function verifierCompletion() {
+    console.log(poissonsRestants);  // Vérification des poissons restants
     if (poissonsRestants === 0) {
-        validerButton.disabled = false; // Si toutes les bulles avec poisson sont dans la zone, débloquer le bouton
+        validerButton.disabled = false; // Si tous les poissons ont été déplacés dans la zone, débloquer le bouton
+    } else {
+        validerButton.disabled = true; // Garder le bouton désactivé tant qu'il reste des poissons à déplacer
     }
 }
 
