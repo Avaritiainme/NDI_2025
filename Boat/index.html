@@ -3,49 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Popup Images</title>
+  <title>Bateau et Coraux</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="gallery">
-    <!-- Boutons pour ouvrir les popups -->
-    <img src="images/chaude.png" alt="Image Chaude" class="open-popup" data-popup="popup1">
-    <img src="images/sel.png" alt="Image Sel" class="open-popup" data-popup="popup2">
-    <img src="images/coeur.png" alt="Image Coeur" class="open-popup" data-popup="popup3">
-    <img src="images/poumon.png" alt="Image Poumon" class="open-popup" data-popup="popup4">
-    <img src="images/os.png" alt="Image Os" class="open-popup" data-popup="popup5">
+  <!-- Zone de jeu -->
+  <div id="game-area">
+    <!-- Mer -->
+    <div id="sea"></div>
+    <!-- Bateau -->
+    <img id="boat" src="images/boat/boat1.png" alt="Bateau">
+    <!-- Coraux générés dynamiquement -->
   </div>
 
-  <!-- Popups cachées -->
-  <div id="popup1" class="popup">
-    <div class="popup-content">
-      <span class="close">&times;</span>
-      <img src="images/chaude.png" alt="Image Chaude">
-    </div>
-  </div>
-
-  <div id="popup2" class="popup">
-    <div class="popup-content">
-      <span class="close">&times;</span>
-      <img src="images/sel.png" alt="Image Sel">
-    </div>
-  </div>
-
-  <div id="popup3" class="popup">
-    <div class="popup-content">
-      <span class="close">&times;</span>
-      <img src="images/coeur.png" alt="Image Coeur">
-    </div>
-  </div>
-
-  <div id="popup4" class="popup">
-    <div class="popup-content">
-      <span class="close">&times;</span>
-      <img src="images/poumon.png" alt="Image Poumon">
-    </div>
-  </div>
-
-  <div id="popup5" class="popup">
+  <!-- Popup -->
+  <div id="popup-os" class="popup">
     <div class="popup-content">
       <span class="close">&times;</span>
       <img src="images/os.png" alt="Image Os">
