@@ -3,22 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jeu de Bateau</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Bateau et Coraux</title>
+  <style>
+    /* Styles pour la zone de jeu */
+    #game-area {
+      position: relative;
+      width: 100vw; /* Occupe toute la largeur de la fenêtre */
+      height: 100vh; /* Occupe toute la hauteur de la fenêtre */
+      border: 2px solid #000;
+      overflow: hidden;
+    }
+
+    /* Mer */
+    #sea {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: url("images/sea.png"); /* Motif de la mer */
+      background-repeat: repeat;
+      background-size: 32px 32px; /* Taille du motif */
+      z-index: 0; /* Plan arrière */
+    }
+
+    /* Coraux */
+    #game-area img {
+      position: absolute;
+      z-index: 1; /* Plan derrière le bateau, mais devant la mer */
+    }
+
+    /* Bateau */
+    #boat {
+      position: absolute;
+      z-index: 2; /* Plan le plus avant (au-dessus des coraux) */
+      width: 50px;
+      height: auto;
+      top: 50%; /* Centrer initialement verticalement */
+      left: 50%; /* Centrer initialement horizontalement */
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease; /* Animation fluide pour les rotations */
+    }
+  </style>
 </head>
 <body>
+  <!-- Zone de jeu -->
   <div id="game-area">
-    <div id="sea">
-<<<<<<< HEAD
-      <img id="boat" src="images/boat/boat1.png" alt="Bateau">
-      <!-- Exemple de sprite ajouté dans la mer -->
-      <img class="sprite" src="images/plankton.png" alt="Île" style="top: 700px; left: 200px;">
-=======
-      <img id="boat" src="images/boat.png" alt="Boat">
-      <img id="plankton" src="images/plankton.png" alt="Plankton">
->>>>>>> 4b575b87719dbbadd54f19f16d7e4377d8631025
-    </div>
+    <!-- Mer -->
+    <div id="sea"></div>
+    <!-- Bateau -->
+    <img id="boat" src="images/boat/boat1.png" alt="Bateau">
   </div>
+
+  <!-- Script principal -->
   <script src="script.js"></script>
 </body>
 </html>
