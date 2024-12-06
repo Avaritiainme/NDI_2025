@@ -38,16 +38,34 @@ function genererBulles() {
         const bulle = document.createElement('div');
         bulle.classList.add('bulle');
         bulle.id = `bulle_${i}`;  // ID unique pour chaque bulle
-        
+
+        // Ajouter une image classique pour chaque bulle au départ
+        const imgClassique = document.createElement('img');
+        imgClassique.src = 'bateau.png';  // Remplacez par l'URL de l'image de votre choix
+        imgClassique.alt = 'Bulle classique'; // Texte alternatif pour l'accessibilité
+        bulle.appendChild(imgClassique);
+
+        // Marquer la bulle comme étant une bulle classique au départ
+        bulle.dataset.type = 'classique';
+
         // Ajouter un poisson aléatoirement (50% des cas)
         if (Math.random() > 0.8) {
-            bulle.classList.add('poisson');
+            // Vérifier si la bulle doit avoir un poisson
+            const imgPoisson = document.createElement('img');
+            imgPoisson.src = 'Pixel-Art-Fish-4.webp';  // URL de l'image d'un poisson
+            imgPoisson.alt = 'Poisson';
+            
+            // Remplacer l'image classique par l'image du poisson, si la bulle est censée avoir un poisson
+            const imageExistante = bulle.querySelector('img');
+            if (imageExistante) {
+                imageExistante.src = imgPoisson.src;  // Remplacer la source de l'image
+                imageExistante.alt = imgPoisson.alt;  // Mettre à jour l'attribut alt
+            }
+
+            // Marquer la bulle comme contenant un poisson
+            bulle.dataset.type = 'poisson';
             poissonsRestants++;
             bullesAvecPoisson++;
-            const img = document.createElement('img');
-            img.src = 'Pixel-Art-Fish-4.webp'; // URL de l'image d'un poisson
-            img.alt = 'Poisson';
-            bulle.appendChild(img);
         }
 
         // Générer une position non chevauchante
@@ -77,7 +95,7 @@ function genererBulles() {
             const y = e.clientY - BULLE_DIAMETRE / 2 - 480; // Ajuster la position verticale pour déplacer vers le haut
 
             // Vérification si la bulle a un poisson et si elle est dans la zone correcte
-            if (bulle.classList.contains('poisson') && !bulle.dataset.depose) {
+            if (bulle.dataset.type === 'poisson' && !bulle.dataset.depose) {
                 // Appliquer la nouvelle position
                 bulle.style.left = `${x}px`;
                 bulle.style.top = `${y}px`;
