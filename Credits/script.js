@@ -1,4 +1,4 @@
-const WORDS = ['ocean', 'games', 'boats', 'lungs', 'human'];
+const WORDS = ['ocean', 'games', 'boats', 'lungs', ''];
 const secret = WORDS[Math.floor(Math.random() * WORDS.length)];
 let currentGuess = '';
 let currentRow = 0;
