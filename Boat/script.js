@@ -24,12 +24,66 @@ const coralCount = 40; // Nombre total de coraux
 const coralZoneWidth = 200; // Largeur de la zone de placement
 const coralZoneHeight = 200; // Hauteur de la zone de placement
 
+// Matrice codée en dur pour le coin supérieur gauche (12x19)
+const coldSeaMatrix = [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
+  [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+  [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+  [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+  [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
+
 // Mettre à jour les dimensions dynamiques de la zone de jeu
 function resizeGameArea() {
   gameArea.style.width = `${window.innerWidth}px`;
   gameArea.style.height = `${window.innerHeight}px`;
   sea.style.width = `${window.innerWidth}px`;
   sea.style.height = `${window.innerHeight}px`;
+  createSeaPattern(); // Redessiner la mer sur redimensionnement
+}
+
+// Fonction pour dessiner la mer avec les deux motifs
+function createSeaPattern() {
+  const tileSize = 32; // Taille d'un motif
+  const cols = Math.ceil(window.innerWidth / tileSize);
+  const rows = Math.ceil(window.innerHeight / tileSize);
+
+  // Effacer le contenu précédent
+  sea.innerHTML = "";
+
+  // Dessiner les motifs
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const tile = document.createElement("div");
+      tile.style.width = `${tileSize}px`;
+      tile.style.height = `${tileSize}px`;
+      tile.style.position = "absolute";
+      tile.style.left = `${col * tileSize}px`;
+      tile.style.top = `${row * tileSize}px`;
+
+      // Appliquer le motif coldsea ou sea
+      if (
+        row < coldSeaMatrix.length &&
+        col < coldSeaMatrix[0].length &&
+        coldSeaMatrix[row][col] === 1
+      ) {
+        tile.style.backgroundImage = "url('images/coldsea.png')";
+      } else {
+        tile.style.backgroundImage = "url('images/sea.png')";
+      }
+      tile.style.backgroundSize = "cover";
+
+      // Ajouter le motif à la mer
+      sea.appendChild(tile);
+    }
+  }
 }
 
 // Initialiser la taille de la zone de jeu
