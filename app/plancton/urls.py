@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from captcha import views as captcha
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', captcha.captcha, name='captcha'),
 ]
