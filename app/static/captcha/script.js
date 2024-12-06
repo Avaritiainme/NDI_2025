@@ -1,13 +1,14 @@
 const container = document.getElementById('bulleContainer');
 const validerButton = document.getElementById('valider');
-const NB_BULLES = 15;
+const NB_BULLES = 15; // Nombre total de bulles
 let poissonsRestants = 0;
-let bullesClassiquesDansZone = 0;
-const BULLE_DIAMETRE = 50;
-const bullesPositions = [];
+let bullesClassiquesDansZone = 0; // Nombre de bulles classiques dans la zone
+const BULLE_DIAMETRE = 50; // Diamètre des bulles en pixels
+const bullesPositions = []; // Tableau pour stocker les positions des bulles
 const zone = document.getElementById('zoneDeplacement');
 const zoneRect = zone.getBoundingClientRect(); // Délimitation de la zone où les bulles doivent être placées
 
+// Fonction pour générer une position aléatoire non chevauchante
 function genererPositionNonChevauchante() {
     const containerRect = container.getBoundingClientRect();
     let positionValide = false;
@@ -30,6 +31,7 @@ function genererPositionNonChevauchante() {
     return { x, y };
 }
 
+// Fonction pour générer des bulles
 function genererBulles() {
     for (let i = 0; i < NB_BULLES; i++) {
         const bulle = document.createElement('div');
@@ -38,16 +40,17 @@ function genererBulles() {
 
         // Ajouter une image classique pour chaque bulle au départ
         const imgClassique = document.createElement('img');
-        imgClassique.src = 'bateau.png';
-        imgClassique.alt = 'Bulle classique';
+        imgClassique.src = '/static/captcha/images/bateau.png'; // URL de l'image classique
+        imgClassique.alt = 'Bulle classique'; // Texte alternatif pour l'accessibilité
         bulle.appendChild(imgClassique);
 
+        // Marquer la bulle comme étant une bulle classique au départ
         bulle.dataset.type = 'classique';
 
-        // Ajouter un poisson aléatoirement (Le pourcentage des bulles poissons est la marge entre le chiffre et 1)
+        // Ajouter un poisson aléatoirement (20% des bulles)
         if (Math.random() > 0.8) {
             const imgPoisson = document.createElement('img');
-            imgPoisson.src = 'Pixel-Art-Fish-4.webp';
+            imgPoisson.src = '/static/captcha/images/Pixel-Art-Fish-4.webp'; // URL de l'image poisson
             imgPoisson.alt = 'Poisson';
 
             // Remplacer l'image classique par l'image du poisson
@@ -62,6 +65,7 @@ function genererBulles() {
             poissonsRestants++;
         }
 
+        // Générer une position non chevauchante
         const position = genererPositionNonChevauchante();
         bulle.style.left = `${position.x}px`;
         bulle.style.top = `${position.y}px`;
@@ -123,14 +127,17 @@ function genererBulles() {
     });
 }
 
+// Vérifier si toutes les conditions de validation sont remplies
 function verifierCompletion() {
     validerButton.disabled = poissonsRestants > 0 || bullesClassiquesDansZone > 0;
 }
 
+// Redirection après validation
 validerButton.addEventListener('click', () => {
     if (poissonsRestants === 0 && bullesClassiquesDansZone === 0) {
-        window.location.href = 'page_debloquee.html';
+        window.location.href = 'boat/';
     }
 });
 
+// Générer les bulles au chargement
 genererBulles();
