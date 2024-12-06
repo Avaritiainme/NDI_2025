@@ -1,24 +1,20 @@
-##Documentation du CAPTCHA ludique : 
+## Documentation du CAPTCHA Ludique
 
-#Description du principe de fonctionnement : 
-Le principe de base utilisé pour notre CAPTCHA consiste à déplacer un objet 
-à l'aide de la souris dans une zone bien précise afin de valider la présence humaine.
+### Description du principe de fonctionnement
 
-#Description de la mise en oeuvre du CAPTCHA : 
-Pour cela l'utilisateur se retrouve sure une page comprenant 2 zones : 
--Une contenant les divers objets (ceux à placer dans la zone de déverouillage et les leurs)
--L'autre étant vide et servant de zone de validation
+Le CAPTCHA repose sur un principe ludique : l'utilisateur doit déplacer un objet à l'aide de la souris dans une zone définie pour valider la présence humaine.
 
-Le but pour valider ce CAPTCHA est donc de placer tous les objets ayant une forme de poisson 
-dans la zone de validation.
-Si tous les objets poissons sont dans la zone alors le CAPTCHA peut être validé.
-Sinon il faut continuer de placer les poisssons suivants.
-A noter que si un objet leurs est placé dans la zone de validation, la page doit être 
-rechargée pour passer le CAPTCHA.
-Nous avons fait ce choix afin d'empêcher un bot d'apprendre les patterns de disposition des objets.
-Après remplissage de la zone par les poissons, le bouton validé est donc clicable et il est
-possible d'acceder à la page principale de notre site.
+### Description de la mise en œuvre du CAPTCHA
 
-#Ajustements des paramètres du CAPTCHA :
-Le nombre de poissons est ajoustable en modifiant le nombre lors de la création de nombre aléatoire.
-Le nombre de bulles est aussi ajustable au début du code via modification de la variable NB_BULLES.  
+La page est divisée en deux zones distinctes :  
+1. Une première zone contenant divers objets, parmi lesquels des poissons (à déplacer dans la zone de validation) et des objets non pertinents.  
+2. Une seconde zone, vide au départ, servant de zone de validation.
+
+Pour valider ce CAPTCHA, l'utilisateur doit déplacer tous les objets représentant des poissons dans la zone de validation. Si tous les poissons sont correctement placés, le CAPTCHA est validé. Si un objet non pertinent est placé dans la zone de validation, la page est rechargée, empêchant un bot de prédire ou d'apprendre les motifs de disposition des objets. 
+
+Lorsque la zone est correctement remplie de poissons, le bouton **Valider** devient cliquable, permettant l'accès à la page principale du site.
+
+### Ajustements des paramètres du CAPTCHA
+
+- **Nombre de poissons** : Modifiable en ajustant la génération aléatoire des objets contenant des poissons.  
+- **Nombre total de bulles** : Ajustable en modifiant la variable `NB_BULLES` définie au début du code.  
